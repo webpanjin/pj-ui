@@ -1,7 +1,7 @@
 <template>
-  <div class="pj-form-item">
-    <label class="pj-form-item__label" :style="labelStyle">{{label}}</label>
-    <div class="pj-form-item__content">
+  <div class="xcw-form-item">
+    <label class="xcw-form-item__label" :style="{width: this.Form.labelWidth}">{{label}}</label>
+    <div class="xcw-form-item__content">
       <slot></slot>
     </div>
   </div>
@@ -9,25 +9,18 @@
 
 <script>
 export default {
-  name: 'PjFormItem',
+  name: 'XcwFormItem',
   props: {
     label: String
   },
-  inject: ['Form'],
-  computed: {
-    labelStyle () {
-      return {
-        width: this.Form.labelWidth
-      }
-    }
-  }
+  inject: ['Form']
 }
 </script>
 
-<style lang="scss" scoped>
-.pj-form-item {
+<style lang="scss">
+.xcw-form-item {
   margin-bottom: 25px;
-  &__label {
+  .xcw-form-item__label {
     text-align: right;
     vertical-align: middle;
     float: left;
@@ -37,7 +30,7 @@ export default {
     padding: 0 12px 0 0;
     box-sizing: border-box;
   }
-  &__content {
+  .xcw-form-item__content {
     line-height: 40px;
     position: relative;
     font-size: 14px;

@@ -1,28 +1,22 @@
 <template>
-  <div class="pj-input" :class="{'pj-input__suffix': showSuffix}">
-    <!-- <input type="text" v-model="username"> v-model语法糖，等价于下-->
-    <!-- <input type="text" :value="username" @input="username=$event.target.value"> -->
+  <div class="xcw-input" :class="{'xcw-input--suffix': showSuffix}">
+    <!-- 如果传了show-password, 判断是否需要切换 密码的显示 如果不传，不判断 -->
     <input
-     class="pj-input__inner"
-     :class="{'is-disabled':disabled}"
-     :placeholder="placeholder"
-     :type="showPassword ? (passwordVisible ? 'text' : 'password') : type"
-     :name="name"
-     :disabled="disabled"
-     :value="value"
-     @input="handleInput"
+      class="xcw-input__inner"
+      :class="{'is-disabled': disabled}"
+      :placeholder="placeholder"
+      :type="showPassword ? (passwordVisible ? 'text':'password') : type"
+      :name="name"
+      :disabled="disabled"
+      :value="value"
+      @input="handleInput"
     >
-    <span class="pj-input__suffix" v-if="showSuffix">
-      <i
-        class="cs-icon-guanbi"
-        v-if="clearable && value"
-        @click="clear"
-      ></i>
-      <i
-        class="cs-icon-yanjing"
+    <span class="xcw-input__suffix" v-if="showSuffix">
+      <i class="xcw-input__icon xcw-icon-circle-close" v-if="clearable && value" @click="clear"></i>
+      <i class="xcw-input__icon xcw-icon-view"
         v-if="showPassword"
-        @click="handlePasswordVisible"
-        :class="{'password-icon-active' : passwordVisible}"
+        @click="handlePassword"
+        :class="{'xcw-icon-view-active':passwordVisible}"
       ></i>
     </span>
   </div>
@@ -30,7 +24,7 @@
 
 <script>
 export default {
-  name: 'PjInput',
+  name: 'XcwInput',
   data () {
     return {
       // 用于控制是否显示密码框
@@ -77,9 +71,10 @@ export default {
       this.$emit('input', e.target.value)
     },
     clear () {
+      // 把内容清空
       this.$emit('input', '')
     },
-    handlePasswordVisible () {
+    handlePassword () {
       this.passwordVisible = !this.passwordVisible
     }
   }
@@ -87,17 +82,17 @@ export default {
 </script>
 
 <style lang="scss">
-.pj-input {
+.xcw-input {
   width: 100%;
   position: relative;
   font-size: 14px;
   display: inline-block;
-  &__inner {
+  .xcw-input__inner {
     -webkit-appearance: none;
     background-color: #fff;
     background-image: none;
-    border: 1px solid #dcdfe6;
     border-radius: 4px;
+    border: 1px solid #dcdfe6;
     box-sizing: border-box;
     color: #606266;
     display: inline-block;
@@ -106,8 +101,9 @@ export default {
     line-height: 40px;
     outline: none;
     padding: 0 15px;
-    transition: border-color 0.2s cubic-bezier(0.645, 045, 0.355, 1);
+    transition: border-color .2s cubic-bezier(.645,.045,.355,1);
     width: 100%;
+
     &:focus {
       outline: none;
       border-color: #409eff;
@@ -120,29 +116,31 @@ export default {
     }
   }
 }
-.pj-input__suffix {
-  .pj-input__inner {
+
+.xcw-input--suffix {
+  .xcw-input__inner {
     padding-right: 30px;
   }
-  .pj-input__suffix {
+  .xcw-input__suffix {
     position: absolute;
-    right: 10px;
     height: 100%;
+    right: 10px;
     top: 0;
     line-height: 40px;
     text-align: center;
     color: #c0c4cc;
-    transition: all 0.3s;
+    transition: all .3s;
     z-index: 900;
     i {
       color: #c0c4cc;
       font-size: 14px;
       cursor: pointer;
-      transition: color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
-      &.password-icon-active {
-        color: rgb(85, 85, 218);
-      }
+      transition: color .2s cubic-bezier(.645,.045,.355,1);
+    }
+    .xcw-icon-view-active {
+      color: blue;
     }
   }
+
 }
 </style>

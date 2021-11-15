@@ -1,7 +1,11 @@
 {
-  "name": "pj-ui",
-  "version": "0.1.0",
-  "private": true,
+  "name": "xcw-ui",
+  "version": "0.1.2",
+  "private": false,
+  "main":"dist/xcw-ui.umd.min.js",
+  "author": {
+    "name": "webpj"
+  },
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -44,7 +48,6 @@
   },
   "browserslist": [
     "> 1%",
-    "last 2 versions",
-    "not dead"
+    "last 2 versions"
   ]
 }

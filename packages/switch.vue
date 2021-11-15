@@ -1,22 +1,20 @@
 <template>
-  <div class="pj-switch" :class="{'is-checked':value}" @click="handleClick">
+  <div class="xcw-switch" :class="{'is-checked': value}" @click="handleClick">
     <input
+      class="xcw-switch__input"
       type="checkbox"
-      class="pj-switch__input"
       :name="name"
       ref="input"
     >
-    <span class="pj-switch__core" ref="core">
-      <span class="pj-switch__button"></span>
+    <span class="xcw-switch__core" ref="core">
+      <span class="xcw-switch__button"></span>
     </span>
   </div>
 </template>
 
 <script>
-// 在使用switch组件时，实质上是当成表单元素来使用的，因此可能会用到组件的name属性
-// 需要在switch组件添加一个checkbox，每当值改变时也需要设置checkbox的value值
 export default {
-  name: 'PjSwitch',
+  name: 'XcwSwitch',
   props: {
     value: {
       type: Boolean,
@@ -38,14 +36,18 @@ export default {
   methods: {
     async handleClick () {
       this.$emit('input', !this.value)
-      // 等待value发生了改变，再调用changeColor
+      // 点击的时候，还需要修改背景色
+      // console.log(this.value)
+      // 等待value发生了改变，在setColor
+      // 数据修改后，等待DOM更新，在修改按钮的颜色
       await this.$nextTick()
-      this.changeColor()
+      this.setColor()
       this.$refs.input.checked = this.value
     },
-    changeColor () {
+    setColor () {
       if (this.activeColor || this.inactiveColor) {
         const color = this.value ? this.activeColor : this.inactiveColor
+        // console.log(color)
         this.$refs.core.style.borderColor = color
         this.$refs.core.style.backgroundColor = color
       }
@@ -53,22 +55,30 @@ export default {
   },
   mounted () {
     // 修改开关的颜色
-    this.changeColor()
-    // 控制checkbox的值
+    this.setColor()
+    // 控制checkbox的checkbox
     this.$refs.input.checked = this.value
   }
 }
 </script>
 
-<style lang="scss" scoped>
-.pj-switch {
-  display: inline-block;
+<style lang="scss">
+.xcw-switch {
+  display: inline-flex;
   align-items: center;
   position: relative;
   font-size: 14px;
   line-height: 20px;
+  height: 20px;
   vertical-align: middle;
-  &__core {
+  .xcw-switch__input {
+    position: absolute;
+    width: 0;
+    height: 0;
+    opacity: 0;
+    margin: 0;
+  }
+  .xcw-switch__core {
     margin: 0;
     display: inline-block;
     position: relative;
@@ -80,37 +90,27 @@ export default {
     box-sizing: border-box;
     background: #dcdfe6;
     cursor: pointer;
-    transition: border-color 0.3s, background-color 0.3s;
+    transition: border-color .3s,background-color .3s;
     vertical-align: middle;
-    .pj-switch__button {
+    .xcw-switch__button {
       position: absolute;
       top: 1px;
       left: 1px;
       border-radius: 100%;
-      transition: all 0.3s;
+      transition: all .3s;
       width: 16px;
       height: 16px;
       background-color: #fff;
     }
   }
-  // checked style
-  &.is-checked {
-    .pj-switch__core {
-      border-color: #409eff;
-      background-color: #409eff;
-      .pj-switch__button {
-        transform: translateX(20px);
-      }
+}
+.xcw-switch.is-checked {
+  .xcw-switch__core {
+    border-color: #409eff;
+    background-color: #409eff;
+    .xcw-switch__button {
+      transform: translateX(20px);
     }
   }
-}
-
-// hide input
-.pj-switch__input {
-  position: absolute;
-  width: 0;
-  height: 0;
-  opacity: 0;
-  margin: 0;
 }
 </style>

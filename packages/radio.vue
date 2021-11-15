@@ -1,18 +1,18 @@
 <template>
-  <label class="pj-radio" :class="{'is-checked': label === model}">
-    <span class="pj-radio__input">
-      <span class="pj-radio__inner"></span>
+  <label class="xcw-radio" :class="{'is-checked': label === model}">
+    <span class="xcw-radio__input">
+      <span class="xcw-radio__inner"></span>
       <input
+        class="xcw-radio__original"
         type="radio"
-        class="pj-radio__original"
         :value="label"
         :name="name"
         v-model="model"
       >
     </span>
-    <span class="pj-radio__label">
+    <span class="xcw-radio__label">
       <slot></slot>
-      <!-- 如果没有传内容，就把label当内容 -->
+      <!-- 如果没有传内容，我们就把label当成内容 -->
       <template v-if="!$slots.default">{{label}}</template>
     </span>
   </label>
@@ -20,10 +20,28 @@
 
 <script>
 export default {
-  name: 'PjRadio',
+  name: 'XcwRadio',
+  // 需要提供一个计算属性 model
   inject: {
     RadioGroup: {
       default: ''
+    }
+  },
+  computed: {
+    model: {
+      get () {
+        // this.RadioGroup.value
+        return this.isGroup ? this.RadioGroup.value : this.value
+      },
+      set (value) {
+        // 触发父组件给当前组件注册的input事件
+        this.$emit('input', value)
+        this.isGroup ? this.RadioGroup.$emit('input', value) : this.$emit('input', value)
+      }
+    },
+    isGroup () {
+      // 用于判断radio是否被radioGroup所包裹
+      return !!this.RadioGroup
     }
   },
   props: {
@@ -36,28 +54,12 @@ export default {
       type: String,
       default: ''
     }
-  },
-  computed: {
-    model: {
-      get () {
-        return this.isGroup ? this.RadioGroup.value : this.value
-      },
-      set (value) {
-        // 触发父组件给当前组件注册的input事件
-        this.$emit('input', value)
-        this.isGroup ? this.RadioGroup.$emit('input', value) : this.$emit('input', value)
-      }
-    },
-    isGroup () {
-      // 用于判断radio是否被radioGroup包裹
-      return !!this.RadioGroup // Boolean值
-    }
   }
 }
 </script>
 
 <style lang="scss">
-.pj-radio {
+.xcw-radio {
   color: #606266;
   font-weight: 500;
   line-height: 1;
@@ -70,8 +72,8 @@ export default {
   margin-right: 30px;
   -moz-user-select: none;
   -webkit-user-select: none;
-  -moz-user-select: none;
-  &__input {
+  -ms-user-select: none;
+  .xcw-radio__input {
     white-space: nowrap;
     cursor: pointer;
     outline: none;
@@ -79,7 +81,7 @@ export default {
     line-height: 1;
     position: relative;
     vertical-align: middle;
-    .pj-radio__inner {
+    .xcw-radio__inner {
       border: 1px solid #dcdfe6;
       border-radius: 100%;
       width: 14px;
@@ -98,11 +100,11 @@ export default {
         position: absolute;
         left: 50%;
         top: 50%;
-        transform: translate(-50%, -50%) scale(0);
-        transition: transform 0.15s ease-in;
+        transform: translate(-50%,-50%) scale(0);
+        transition: transform .15s ease-in;
       }
     }
-    .pj-radio__original {
+    .xcw-radio__original {
       opacity: 0;
       outline: none;
       position: absolute;
@@ -114,23 +116,23 @@ export default {
       margin: 0;
     }
   }
-  .pj-radio__label {
+  .xcw-radio__label {
     font-size: 14px;
     padding-left: 10px;
   }
 }
-// 选中的样式
-.pj-radio.is-checked {
-  .pj-radio__input {
-    .pj-radio__inner {
+
+.xcw-radio.is-checked {
+  .xcw-radio__input {
+    .xcw-radio__inner {
       border-color: #409eff;
-      background-color: #409eff;
+      background: #409eff;
       &:after {
-        transform: translate(-50%, -50%) scale(1);
+        transform: translate(-50%,-50%) scale(1);
       }
     }
   }
-  .pj-radio__label {
+  .xcw-radio__label {
     color: #409eff;
   }
 }

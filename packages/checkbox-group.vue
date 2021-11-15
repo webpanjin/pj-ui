@@ -1,12 +1,12 @@
 <template>
-  <div class="pj-checkbox-group">
+  <div class="xcw-checkbox-group">
     <slot></slot>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'PjCheckboxGroup',
+  name: 'XcwCheckboxGroup',
   props: {
     value: {
       type: Array
@@ -20,6 +20,6 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-  .pj-checkbox-group{}
+<style>
+
 </style>

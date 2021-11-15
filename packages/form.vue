@@ -1,12 +1,12 @@
 <template>
-  <div class="pj-form">
+  <div class="xcw-form">
     <slot></slot>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'PjForm',
+  name: 'XcwForm',
   props: {
     model: {
       type: Object,
@@ -25,6 +25,6 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style>
 
 </style>

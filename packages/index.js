@@ -1,39 +1,44 @@
 // 整个包的入口
-// 定义install方法，接受Vue作为参数，如果使用use注册插件，则所有组件都将被注册
-
+// 定义 install 方法，接收 Vue 作为参数。如果使用 use 注册插件，则所有的组件都将被注册
+// 统一导出
+// 导入颜色选择器组件
 import Button from './button'
 import Dialog from './dialog'
 import Input from './input'
-import Switch from './switch'
+import Checkbox from './checkbox'
 import Radio from './radio'
 import RadioGroup from './radio-group'
-import Checkbox from './checkbox'
+import Switch from './switch'
 import CheckboxGroup from './checkbox-group'
 import Form from './form'
 import FormItem from './form-item'
 import './fonts/font.scss'
+
+// 存储组件列表
 const components = [
   Button,
   Dialog,
   Input,
-  Switch,
+  Checkbox,
   Radio,
   RadioGroup,
-  Checkbox,
+  Switch,
   CheckboxGroup,
   Form,
   FormItem
 ]
-const install = (Vue) => {
-  console.log('install all comps')
-  components.forEach(component => {
-    Vue.component(component.name, component)
+const install = function (Vue) {
+  // 全局注册所有的组件
+  components.forEach((item) => {
+    Vue.component(item.name, item)
   })
 }
-// if use Vue in script like <script scr='....vue.min.js'></script> then install
+
+// 判断是否是直接引入文件,如果是，就不用调用 Vue.use()
 if (typeof window !== 'undefined' && window.Vue) {
   install(window.Vue)
 }
+
 export default {
   install
 }
